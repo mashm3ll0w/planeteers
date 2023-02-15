@@ -3,6 +3,7 @@ import React, {useState} from "react";
 function Planeteer({planeteer}) {
 
   const [showBio, setShowBio] = useState(true)
+  const currentYear = new Date().getFullYear()
 
   function handleClick(){
     setShowBio(showBio => !showBio)
@@ -25,6 +26,7 @@ function Planeteer({planeteer}) {
             <p>
               {planeteer.fromUSA ? "USA-based" : "Working oversees"}
             </p>
+            <p>{currentYear - planeteer.born} years old</p>
           </div>
         </div>
       </div>
