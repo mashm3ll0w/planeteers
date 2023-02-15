@@ -8,21 +8,35 @@ import SearchBar from "./SearchBar";
 function App() {
 
   const [planeteers, setPlaneteers] = useState([])
+  const [search, setSearch] = useState("")
 
   useEffect(() => {
     fetch("http://localhost:8003/planeteers")
     .then(res => res.json())
-    .then(data => {
-      setPlaneteers(planeteers => setPlaneteers(data))
-    })
+    .then(data => setPlaneteers(data))
   }, [])
+
+
+  function handleSearch(searchTerm){
+    setSearch(searchTerm)
+  }
+
+  
+  const searchedPlaneteers = planeteers.filter(planeteer => {
+    if(search === ""){
+      return true
+    }
+    else {
+      return ((planeteer.name).toLowerCase().includes(search) || planeteer.bio.toLowerCase().includes(search))
+    }
+  })
 
   return (
     <div>
       <Header />
-      <SearchBar />
+      <SearchBar onSearch={handleSearch}/>
       <RandomButton />
-      <PlaneteersContainer planeteers={planeteers}/>
+      <PlaneteersContainer planeteers={searchedPlaneteers}/>
     </div>
   );
 }
