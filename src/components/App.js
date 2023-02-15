@@ -21,6 +21,10 @@ function App() {
     setSearch(searchTerm)
   }
 
+  function addRandomPlaneteer(newPlaneteer){
+    setPlaneteers([...planeteers, newPlaneteer])
+  }
+
   
   const searchedPlaneteers = planeteers.filter(planeteer => {
     if(search === ""){
@@ -35,7 +39,7 @@ function App() {
     <div>
       <Header />
       <SearchBar onSearch={handleSearch}/>
-      <RandomButton />
+      <RandomButton onAddRandomPlaneteer={addRandomPlaneteer}/>
       <PlaneteersContainer planeteers={searchedPlaneteers}/>
     </div>
   );
