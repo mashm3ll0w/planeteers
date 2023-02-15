@@ -9,6 +9,7 @@ function App() {
 
   const [planeteers, setPlaneteers] = useState([])
   const [search, setSearch] = useState("")
+  const [sort, setSort] = useState(false)
 
   useEffect(() => {
     fetch("http://localhost:8003/planeteers")
@@ -25,6 +26,9 @@ function App() {
     setPlaneteers([...planeteers, newPlaneteer])
   }
 
+  function handleSort(){
+    setSort(sort => !sort)
+  }
   
   const searchedPlaneteers = planeteers.filter(planeteer => {
     if(search === ""){
@@ -35,12 +39,22 @@ function App() {
     }
   })
 
+  const sortedPlaneteers = searchedPlaneteers.sort((a, b) => {
+    if(sort){
+      return (b.born < a.born ? 1 : -1)
+    }
+    else {
+     return (a.id > b.id ? 1 : -1)
+    }
+  })
+
+
   return (
     <div>
       <Header />
-      <SearchBar onSearch={handleSearch}/>
+      <SearchBar onSearch={handleSearch} onSort={handleSort}/>
       <RandomButton onAddRandomPlaneteer={addRandomPlaneteer}/>
-      <PlaneteersContainer planeteers={searchedPlaneteers}/>
+      <PlaneteersContainer planeteers={sortedPlaneteers}/>
     </div>
   );
 }
